@@ -16,6 +16,8 @@ namespace EnhancedDictionary
             var enhancedDict = new Dict<string, int>();
 
             enhancedDict.CollectionChanged += enhancedDict_CollectionChanged;
+            enhancedDict.Keys.CollectionChanged += Keys_CollectionChanged;
+            enhancedDict.Values.CollectionChanged += Values_CollectionChanged;
 
             for (int i = 3; i > 0; i--)
             {
@@ -46,8 +48,55 @@ namespace EnhancedDictionary
             Console.ReadKey();
         }
 
+        static void Values_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (var item in e.OldItems)
+                {
+                    Console.WriteLine("Removed value: " + item);
+                }
+            }
+
+            if (e.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    Console.WriteLine("Added value: " + item);
+                }
+            }
+        }
+
+        static void Keys_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (var item in e.OldItems)
+                {
+                    Console.WriteLine("Removed key: " + item);
+                }
+            }
+
+            if (e.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    Console.WriteLine("Added key: " + item);
+                }
+            }
+        }
+
         static void enhancedDict_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (e.OldItems != null)
+            {
+                foreach (var item in e.OldItems)
+                {
+                    var kvp = item as Kvp<string, int>;
+                    Console.WriteLine("Removed key: " + kvp.Key + ", value: " + kvp.Value);
+                }
+            }
+
             if (e.NewItems != null)
             {
                 foreach (var item in e.NewItems)
